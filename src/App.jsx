@@ -24,24 +24,27 @@ function App() {
 
   }, [reqType])
 
-  const handleUsersClick = () => {
-    setReqType('users');
-  }
-
-  const handlePostsClick = () => {
-    setReqType('posts');
-  }
-
-  const handleCommentsClick = () => {
-    setReqType('comments');
-  }
-
   return (
     <>
       <div style={{position: 'absolute', top:'5px', width: '100vw', margin: '0 auto', display: 'flex', justifyContent: 'space-evenly'}}>
-        <button onClick={handleUsersClick} style={{border: reqType == 'users' ? 'solid 1px white': 'none' }}>users</button>
-        <button onClick={handlePostsClick} style={{border: reqType == 'posts' ? 'solid 1px white': 'none' }}>posts</button>
-        <button onClick={handleCommentsClick} style={{border: reqType == 'comments' ? 'solid 1px white': 'none' }}>comments</button>
+        <button 
+          onClick={() => setReqType('users')} 
+          style={{border: reqType == 'users' ? 'solid 1px white': 'none' }}
+        >
+          users
+        </button>
+        <button 
+          onClick={() => setReqType('posts')} 
+          style={{border: reqType == 'posts' ? 'solid 1px white': 'none' }}
+        >
+          posts
+        </button>
+        <button 
+          onClick={() => setReqType('comments')} 
+          style={{border: reqType == 'comments' ? 'solid 1px white': 'none' }}
+        >
+          comments
+        </button>
       </div>
       <div>
         <ListData data={reqItems} /> 
