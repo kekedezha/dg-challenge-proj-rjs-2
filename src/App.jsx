@@ -1,33 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import ListData from './ Components/ListData';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const API_URL = 'https://jsonplaceholder.typicode.com/';
+  const [reqType, setReqType] = useState('users')
+  const [reqItems, setReqItems] = useState([])
+
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_URL + reqType);
+        if(!response.ok) throw Error('Did not receive expected data');
+        const data = await response.json();
+        setReqItems(data);
+      } catch(err) {
+        console.log(err.message)
+      }
+    }
+
+    fetchData();
+
+  }, [reqType])
+
+  const handleUsersClick = () => {
+    setReqType('users');
+  }
+
+  const handlePostsClick = () => {
+    setReqType('posts');
+  }
+
+  const handleCommentsClick = () => {
+    setReqType('comments');
+  }
 
   return (
     <>
+      <div style={{position: 'absolute', top:'5px', width: '100vw', margin: '0 auto', display: 'flex', justifyContent: 'space-evenly'}}>
+        <button onClick={handleUsersClick} style={{border: reqType == 'users' ? 'solid 1px white': 'none' }}>users</button>
+        <button onClick={handlePostsClick} style={{border: reqType == 'posts' ? 'solid 1px white': 'none' }}>posts</button>
+        <button onClick={handleCommentsClick} style={{border: reqType == 'comments' ? 'solid 1px white': 'none' }}>comments</button>
+      </div>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <ListData data={reqItems} /> 
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
